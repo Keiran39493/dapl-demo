@@ -74,11 +74,11 @@ h2, h3, h4 {
 }
 
 .prompt-item {
-    background-color: #e4e4e4;
+    background-color: #ffffff;
     margin: 20px 0;
     padding: 20px;
     border-radius: 8px;
-    border-left: 5px solid #00539CFF;
+    border-left: 5px solid rgb(79, 142, 224);
 }
 
 .ai-suggestions ul {
