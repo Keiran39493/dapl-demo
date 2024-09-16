@@ -10,28 +10,7 @@ session_start();
     <link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
-    <header>
-        <a href="index.php">
-            <img src="logo.png" alt="Digital Accessibility Project Logo" class="logo">
-        </a>
-        <nav>
-            <a href="index.php">Home</a>
-            <a href="library.php">Prompt Library</a>
-            <a href="about.php">About</a>
-            <a href="contact.php">Contact</a>
-            <a href="manual.php">User Manual</a>
-
-            <?php
-            // Dynamic login/logout link based on session
-            if (isset($_SESSION['user_id'])) {
-                echo '<a href="dashboard.php">Profile</a>';
-                echo '<a href="logout.php">Logout</a>';
-            } else {
-                echo '<a href="login.php">Login</a>';
-            }
-            ?>
-        </nav>
-    </header>
+<?php include('header.php'); ?>
     
     <div class="container">
         <main>

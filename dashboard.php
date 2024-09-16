@@ -45,28 +45,20 @@ $issues_stmt->close();
 </head>
 <body>
 
-<header>
-    <a href="index.php">
-        <img src="logo.png" alt="Digital Accessibility Project Logo" class="logo">
-    </a>
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="library.php">Prompt Library</a>
-        <a href="about.php">About</a>
-        <a href="contact.php">Contact</a>
-        <a href="manual.php">User Manual</a>
-        <a href="logout.php">Logout</a>
-    </nav>
-</header>
+<?php include('header.php'); ?>
+
 
 <div class="container">
     <h1 style="text-align: left;">Welcome to Your Dashboard, <?php echo htmlspecialchars($username); ?>!</h1>
     
     <div class="user-info">
         <h2>Your Information</h2>
-        <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-        <p><strong>Accessibility Issues:</strong> <?php echo implode(', ', array_map('htmlspecialchars', $issues)); ?></p>
+        <p style="font-size: 18px;"><strong>Username:</strong> <?php echo htmlspecialchars($username); ?> 
+            <a href="editprofile.php?type=username" class="edit-button">Edit</a></p>
+        <p style="font-size: 18px;"><strong>Email:</strong> <?php echo htmlspecialchars($email); ?> 
+            <a href="editprofile.php?type=email" class="edit-button">Edit</a></p>
+        <p style="font-size: 18px;"><strong>Accessibility Issues:</strong> <?php echo implode(', ', array_map('htmlspecialchars', $issues)); ?> 
+            <a href="editprofile.php?type=issues" class="edit-button">Edit</a></p>
     </div>
 
     <div class="links">
@@ -75,10 +67,16 @@ $issues_stmt->close();
             <li><a href="about.php">About Us</a></li>
             <li><a href="library.php">Your Library</a></li>
             <li><a href="contact.php">Contact Support</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="logout.php" onclick="return confirmLogout();">Logout</a></li>
         </ul>
     </div>
 </div>
+
+<script>
+function confirmLogout() {
+    return confirm("Are you sure you want to logout?");
+}
+</script>
 
 <footer>
     <p>&copy; 2024 Your Website. All rights reserved.</p>

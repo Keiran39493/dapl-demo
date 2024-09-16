@@ -108,30 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-<header>
-    <a href="index.php">
-        <img src="logo.png" alt="Digital Accessibility Project Logo" class="logo">
-    </a>
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="library.php">Prompt Library</a>
-        <a href="about.php">About</a>
-        <a href="contact.php">Contact</a>
-        <a href="manual.php">User Manual</a>
-
-        <?php
-        // Check if the user is logged in (session variable is set)
-        if (isset($_SESSION['user_id'])) {
-            // Display a link to the profile and logout
-            echo '<a href="dashboard.php">Profile</a>';
-            echo '<a href="logout.php">Logout</a>';
-        } else {
-            // Display a login link if not logged in
-            echo '<a href="login.php">Login</a>';
-        }
-        ?>
-    </nav>
-</header>
+<?php include('header.php'); ?>
 
 <div class="container">
     <div class="register-form">

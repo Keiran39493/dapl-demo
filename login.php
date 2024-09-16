@@ -8,17 +8,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Check if the user exists
-    $stmt = $conn->prepare("SELECT user_id, password FROM users WHERE username = ?");
+    // Check if the user exists and fetch their role
+    $stmt = $conn->prepare("SELECT user_id, password, role FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($user_id, $hashed_password);
+        $stmt->bind_result($user_id, $hashed_password, $role);
         $stmt->fetch();
         if (password_verify($password, $hashed_password)) {
+            // Store user info and role in session
             $_SESSION['user_id'] = $user_id;
-            header("Location: dashboard.php");
+            $_SESSION['role'] = $role;
+
+            // Redirect based on role
+            if ($role === 'admin') {
+                header("Location: admin_dashboard.php"); // Redirect admin to admin dashboard
+            } else {
+                header("Location: dashboard.php"); // Redirect regular user to user dashboard
+            }
             exit;
         } else {
             $error = "Invalid username or password.";
@@ -38,11 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Move nav links to the right */
+        /* Navigation Styling */
         nav {
             display: flex;
             justify-content: flex-end;
-            margin-right: 20px; /* Adjust margin to the right */
+            margin-right: 20px;
         }
 
         nav a {
@@ -60,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .login-form {
-            max-width: 400px; /* Limit the width of the form */
-            margin: 0 auto; /* Center the form */
+            max-width: 400px;
+            margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
             border-radius: 10px;
@@ -93,34 +101,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .login-form input[type="submit"]:hover {
             background-color: #003d80;
         }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <a href="index.php">
-        <img src="logo.png" alt="Your Website Logo" class="logo">
-    </a>
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="library.php">Prompt Library</a>
-        <a href="about.php">About</a>
-        <a href="contact.php">Contact</a>
-        <a href="manual.php">User Manual</a>
-
-        <?php
-        // Check if the user is logged in (session variable is set)
-        if (isset($_SESSION['user_id'])) {
-            // Display a link to the profile and logout
-            echo '<a href="dashboard.php">Profile</a>';
-            echo '<a href="logout.php">Logout</a>';
-        } else {
-            // Display a login link if not logged in
-            echo '<a href="login.php">Login</a>';
-        }
-        ?>
-    </nav>
-</header>
+<?php include('header.php'); ?>
 
 <div class="container">
     <div class="login-form">
@@ -128,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Display the error message if login fails -->
         <?php if ($error): ?>
-            <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+            <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
 
         <form method="POST" action="login.php">

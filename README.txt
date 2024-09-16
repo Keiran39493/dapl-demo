@@ -8,3 +8,7 @@ Requirements:
 2. Place the project folder in the `htdocs` directory.
 3. Download the databse creation script to MySQL
 4. Open your browser and navigate to `http://localhost/website/index.php` to begin.
+
+
+admin user: admin
+admin pass: admin
