@@ -18,14 +18,14 @@ session_start();
     <main>
             <section class="intro">
                 <h2>Welcome to the Digital Accessibility Prompt Library (DAPL)</h2>
-                <p>This project focuses on creating a comprehensive prompt library using generative AI tools to solve digital accessibility issues, in alignment with WCAG 2.1 principles.</p>
+                <p>This website focuses on creating a comprehensive prompt library, leveraging generative AI tools to solve digital accessibility issues in alignment with WCAG 2.1 principles.</p>
                 <p>Explore our prompt library to find solutions tailored to various accessibility challenges.</p>
             </section>
             <section class="links">
-                <a href="library.html" class="button">Explore our library here!</a>
+                <a href="library.php" class="button">Explore our Prompt Library here!</a>
                 <br>
                 <br>
-                <a href="manual.html" class="button">Try our User Manual here for assistance</a>
+                <a href="manual.php" class="button">Select our User Manual here for assistance</a>
             </section>
         </main>
     </div>

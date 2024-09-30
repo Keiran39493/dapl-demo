@@ -49,21 +49,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $check_stmt = $conn->prepare("SELECT user_id FROM users WHERE username = ? AND user_id != ?");
         $check_stmt->bind_param("si", $new_username, $user_id);
         $check_stmt->execute();
-        $check_stmt->store_result(); // Ensure results are stored
+        $check_stmt->store_result();
         if ($check_stmt->num_rows > 0) {
             $error = "Username is already taken.";
         } else {
-            $check_stmt->close(); // Close the check statement before updating
+            $check_stmt->close();
             
             $update_stmt = $conn->prepare("UPDATE users SET username = ? WHERE user_id = ?");
             $update_stmt->bind_param("si", $new_username, $user_id);
             $update_stmt->execute();
-            $update_stmt->close(); // Close the update statement
+            $update_stmt->close();
             
             header("Location: dashboard.php");
             exit;
         }
-        $check_stmt->close(); // Close after use
+        $check_stmt->close();
 
     } elseif ($type == 'email') {
         $new_email = trim($_POST['email']);
@@ -72,21 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $check_stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND user_id != ?");
         $check_stmt->bind_param("si", $new_email, $user_id);
         $check_stmt->execute();
-        $check_stmt->store_result(); // Ensure results are stored
+        $check_stmt->store_result();
         if ($check_stmt->num_rows > 0) {
             $error = "Email is already taken.";
         } else {
-            $check_stmt->close(); // Close the check statement before updating
+            $check_stmt->close();
 
             $update_stmt = $conn->prepare("UPDATE users SET email = ? WHERE user_id = ?");
             $update_stmt->bind_param("si", $new_email, $user_id);
             $update_stmt->execute();
-            $update_stmt->close(); // Close the update statement
+            $update_stmt->close();
             
             header("Location: dashboard.php");
             exit;
         }
-        $check_stmt->close(); // Close after use
+        $check_stmt->close();
 
     } elseif ($type == 'issues') {
         $new_issues = isset($_POST['issues']) ? $_POST['issues'] : [];
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clear_stmt = $conn->prepare("DELETE FROM user_accessibility WHERE user_id = ?");
         $clear_stmt->bind_param("i", $user_id);
         $clear_stmt->execute();
-        $clear_stmt->close(); // Close after clearing
+        $clear_stmt->close();
 
         // Insert new issues
         $insert_stmt = $conn->prepare("INSERT INTO user_accessibility (user_id, issue_id) VALUES (?, ?)");
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insert_stmt->bind_param("ii", $user_id, $issue_id);
             $insert_stmt->execute();
         }
-        $insert_stmt->close(); // Close after inserting issues
+        $insert_stmt->close();
         
         header("Location: dashboard.php");
         exit;
@@ -118,12 +118,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
-        // JavaScript function to display confirmation dialog
-        function confirmChange() {
-            return confirm("Are you sure you want to update your account details?");
+    <style>
+        /* CSS Styles for aligning form elements */
+        .edit-profile-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the left */
+            max-width: 600px; /* Limit the form width */
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-    </script>
+
+        .edit-profile-form label, 
+        .edit-profile-form input[type="text"], 
+        .edit-profile-form input[type="email"], 
+        .edit-profile-form .checkbox-container {
+            width: 100%; /* Make all elements full width */
+            margin-bottom: 15px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button {
+            width: 100%; /* Make the button full width */
+            padding: 10px;
+            background-color: #00539CFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            color: #00539CFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -136,13 +181,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
 
-    <div class="form-container">
+    <div class="form-container edit-profile-form">
         <?php if ($type == 'username'): ?>
             <form method="POST" action="editprofile.php?type=username" onsubmit="return confirmChange();">
                 <label for="username">New Username:</label>
                 <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" required>
                 <button type="submit" class="button">Save Changes</button>
             </form>
+            <a href="dashboard.php" class="back-link">Back to Dashboard</a>
 
         <?php elseif ($type == 'email'): ?>
             <form method="POST" action="editprofile.php?type=email" onsubmit="return confirmChange();">
@@ -150,20 +196,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
                 <button type="submit" class="button">Save Changes</button>
             </form>
+            <a href="dashboard.php" class="back-link">Back to Dashboard</a>
 
         <?php elseif ($type == 'issues'): ?>
             <form method="POST" action="editprofile.php?type=issues" onsubmit="return confirmChange();">
-                <label for="issues">Select Your Accessibility Issues:</label><br>
-                <?php while ($row = $all_issues_result->fetch_assoc()): ?>
-                    <input type="checkbox" name="issues[]" value="<?php echo $row['issue_id']; ?>" 
-                    <?php echo in_array($row['issue_id'], $selected_issues) ? 'checked' : ''; ?>>
-                    <?php echo htmlspecialchars($row['issue_name']); ?><br>
-                <?php endwhile; ?>
+                <h2>Select Your Accessibility Issue Interests:</h2> <!-- Applied the same header styling as other headers -->
+                <div class="checkbox-container">
+                    <?php while ($row = $all_issues_result->fetch_assoc()): ?>
+                        <label>
+                            <input type="checkbox" name="issues[]" value="<?php echo $row['issue_id']; ?>" 
+                            <?php echo in_array($row['issue_id'], $selected_issues) ? 'checked' : ''; ?>>
+                            <?php echo htmlspecialchars($row['issue_name']); ?>
+                        </label>
+                    <?php endwhile; ?>
+                </div>
                 <button type="submit" class="button">Save Changes</button>
             </form>
+            <a href="dashboard.php" class="back-link">Back to Dashboard</a>
+
         <?php else: ?>
             <p class="error-message">Invalid option.</p>
         <?php endif; ?>
+
     </div>
 </div>
 

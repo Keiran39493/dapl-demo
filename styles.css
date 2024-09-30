@@ -123,3 +123,162 @@ footer {
     border-radius: 0 0 8px 8px;
 }
 
+.error-message {
+    color: red;
+    background-color: #fdd;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.success-message {
+    color: green;
+    background-color: #dfd;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+/* Improved search bar appearance */
+.search-bar {
+    width: 100%;
+    max-width: 400px; /* Set a max width for better responsiveness */
+    padding: 12px 20px; /* Add padding for a larger clickable area */
+    margin-bottom: 20px;
+    border: 2px solid #ccc; /* Thicker border for visibility */
+    border-radius: 8px; /* More rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    font-size: 16px; /* Slightly larger font size */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+/* Add focus effect to make it stand out when clicked */
+.search-bar:focus {
+    border-color: #00539CFF; /* Change border color on focus */
+    box-shadow: 0 4px 8px rgba(0, 83, 156, 0.2); /* Increase shadow on focus */
+    outline: none; /* Remove default browser outline */
+}
+
+.container {
+    max-width: 6000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label, textarea {
+    margin-bottom: 10px;
+}
+
+.rating-stars-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.rating-stars {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 15px;
+}
+
+.star {
+    font-size: 40px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.star:hover, .star.active, .star.hovered {
+    color: gold;
+    transform: scale(1.2);
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #00539CFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #003d80;
+}
+
+h2 {
+    font-size: 24px;
+    color: #00539CFF;
+    font-family: Arial, sans-serif;
+    margin-bottom: 15px;
+}
+
+.thank-you-message {
+    font-size: 18px;
+    color: green;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.back-to-home {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #00539CFF;
+    text-decoration: none;
+}
+
+.back-to-home:hover {
+    text-decoration: underline;
+}
+/* Styles specifically for the Edit Profile form */
+.edit-profile-form {
+    max-width: 600px; /* Control the form container width */
+    margin: 0 auto;
+    text-align: left;
+}
+
+.edit-profile-form input[type="text"], 
+.edit-profile-form input[type="email"], 
+.edit-profile-form input[type="password"], 
+.edit-profile-form textarea {
+    width: 100%; /* Full width for the form inputs */
+    padding: 10px; /* Padding for better spacing */
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Border for the inputs */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box;
+}
+
+.edit-profile-form button {
+    padding: 10px 200px; /* Adjust padding for buttons */
+    background-color: #00539CFF; /* Button background color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto; /* Prevent the button from stretching full-width */
+    display: inline-block;
+}
+
+.edit-profile-form button:hover {
+    background-color: #003d80; /* Button hover effect */
+}
+
+.edit-profile-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; /* Labels displayed as block for better spacing */
+}
+

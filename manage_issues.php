@@ -59,13 +59,159 @@ $issues_stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Accessibility Issues</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        header {
+            background-color: #F1F1E9;
+            color: white;
+            padding: 20px;
+            display: flex;
+            text-align: left;
+            margin-bottom: 20px;
+            justify-content: space-between;
+        }
+
+        header .logo {
+            display: block;
+            margin-right: auto;
+            max-width: 150px;
+            height: auto;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F1F1E9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: black;
+            padding: 10px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #413932;
+            text-align: center;
+        }
+
+        h2 {
+            color: #00539CFF;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .success-message {
+            color: green;
+            background-color: #dfd;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .issues-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .issues-list li {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .issues-list input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .button, .delete-button {
+            padding: 5px 10px;
+            background-color: #00539CFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover, .delete-button:hover {
+            background-color: #003d80;
+        }
+
+        .delete-button {
+            background-color: red;
+        }
+
+        .delete-button:hover {
+            background-color: darkred;
+        }
+
+        .add-issue-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .back-link {
+            display: block;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #00539CFF;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            border-radius: 0 0 8px 8px;
+        }
+    </style>
 </head>
 <body>
 
 <?php include('header.php'); ?> <!-- Include the admin navigation -->
 
 <div class="container">
+    <a href="admin_dashboard.php" class="back-link">&larr; Back to Dashboard</a> <!-- Back to Dashboard link -->
+
     <h1>Manage Accessibility Issues</h1>
 
     <?php if (isset($message)): ?>
@@ -77,11 +223,13 @@ $issues_stmt->close();
         <ul>
             <?php while ($row = $issues_result->fetch_assoc()): ?>
                 <li>
-                    <form method="POST" style="display: inline;">
+                    <form method="POST">
                         <input type="hidden" name="issue_id" value="<?php echo $row['issue_id']; ?>">
                         <input type="text" name="issue_name" value="<?php echo htmlspecialchars($row['issue_name']); ?>">
-                        <button type="submit" name="edit_issue" class="button">Edit</button>
-                        <button type="submit" name="delete_issue" class="button delete-button" onclick="return confirm('Are you sure you want to delete this issue?');">Delete</button>
+                        <div class="issue-actions">
+                            <button type="submit" name="edit_issue" class="button">Update</button>
+                            <button type="submit" name="delete_issue" class="delete-button" onclick="return confirm('Are you sure you want to delete this issue?');">Delete</button>
+                        </div>
                     </form>
                 </li>
             <?php endwhile; ?>

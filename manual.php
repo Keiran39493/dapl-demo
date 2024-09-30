@@ -14,57 +14,82 @@ session_start();
 
 <?php include('header.php'); ?>
 
+<div class="container">
+    <main>
+        <!-- Introduction -->
+        <section class="manual-intro">
+            <h2>Welcome to the Digital Accessibility Prompt Library</h2>
+            <p>Use this guide to navigate the Prompt Library and enhance the accessibility of your digital products. Whether you’re a developer, content creator, or accessibility advocate, this manual will help you make the most of our AI-generated prompts designed in alignment with WCAG 2.1 principles.</p>
+        </section>
 
-    <div class="container">
-        <main>
-            <section class="manual-intro">
-                <h2>Introduction</h2>
-                <p>Welcome to the User Manual for the Digital Accessibility Prompt Library. This guide is designed to help you navigate and effectively use the resources provided in this library.</p>
-            </section>
+        <!-- How to Use the Library -->
+        <section class="manual-content">
+            <h2>How to Navigate the Prompt Library</h2>
+            <ol>
+                <li><strong>Access the Library:</strong> Go to the <a href="library.php">Prompt Library</a> via the navigation menu.</li>
+                <li><strong>Browse Categories:</strong> Explore accessibility challenges such as image descriptions, video captions, and more.</li>
+                <li><strong>Copy a Prompt:</strong> Click on the "Copy Prompt" button next to a prompt to copy it to your clipboard.</li>
+                <li><strong>Use AI Tools:</strong> Paste the prompt into AI tools like ChatGPT or Gemini to generate accessibility solutions.</li>
+                <li><strong>Additional Resources:</strong> Explore integrated guides to better understand how accessibility standards apply to your project.</li>
+                <br>
+            </ol>
+        </section>
 
-            <section class="manual-content">
-                <h2>How to Use the Digital Accessibility Prompt Library</h2>
-                <p>The Digital Accessibility Prompt Library is organized into different sections, each targeting specific accessibility issues. Here’s how to get started:</p>
-                <ol>
-                    <li>Navigate to the <strong><a href="library.php">Prompt Library</a></strong> by clicking on the "Prompt Library" link in the navigation menu.</li>
-                    <li>Browse through the list of common accessibility problems. Each problem is accompanied by a prompt that can be used with generative AI tools.</li>
-                    <li>To use a prompt:
-                        <ul>
-                            <li><strong>Copy the Prompt:</strong> Click the "Copy Prompt" button next to it. The prompt will be automatically copied to your clipboard.</li>
-                        </ul>
-                    </li>
-                    <li>You can then paste this prompt into your chosen AI tool, such as ChatGPT or Gemini, or use the opened search tab to find solutions or suggestions tailored to your specific needs.</li>
-                </ol>
-                <p>If you need additional assistance with a prompt or how to implement the generated suggestions, feel free to refer to the examples and best practices section below.</p>
-            </section>
+        <!-- Practical Examples & Best Practices -->
+        <section class="manual-examples">
+            <h2>Practical Examples & Best Practices</h2>
 
-            <section class="manual-examples">
-                <h2>Examples and Best Practices</h2>
-                <p>Here are some examples of how to effectively use the prompts in the library:</p>
-                <h3>Example 1: Describing an Image</h3>
-                <p><strong>Scenario:</strong> You have an image on your website of a person using a laptop in a park, and you need a detailed description for accessibility purposes.</p>
-                <p><strong>Prompt:</strong> "Describe an image of a person using a laptop in a park. The description should be detailed and cover the surroundings as well."</p>
-                <p><strong>Best Practice:</strong> Ensure that the description not only covers the main subject (the person using the laptop) but also the context (e.g., the park, the weather, other people or objects in the vicinity). This provides a richer experience for users relying on screen readers.</p>
+            <!-- Example 1 -->
+            <div class="example-box">
+                <h3>1. Describing Images for Screen Readers</h3>
+                <p><strong>Scenario:</strong> A webpage includes an image of a student studying at a desk.</p>
+                <p><strong>Prompt Example:</strong> "Provide a detailed description of an image showing a student studying at a desk with books and a laptop."</p>
+                <p><strong>Best Practice:</strong> Ensure descriptions include both the subject and surrounding context for clarity.</p>
+            </div>
 
-                <h3>Example 2: Captioning a Video</h3>
-                <p><strong>Scenario:</strong> You need to add captions to a video where a professor explains the basics of quantum physics.</p>
-                <p><strong>Prompt:</strong> "Generate detailed captions for a video where a professor explains the basics of quantum physics in a classroom setting."</p>
-                <p><strong>Best Practice:</strong> Focus on clarity and conciseness in the captions. Ensure that all spoken words are captured accurately, including important non-verbal cues like pauses or emphatic gestures that enhance understanding.</p>
-            </section>
+            <!-- Example 2 -->
+            <div class="example-box">
+                <h3>2. Captioning a Video</h3>
+                <p><strong>Scenario:</strong> Adding captions to a physics video tutorial where a teacher explains a concept.</p>
+                <p><strong>Prompt Example:</strong> "Generate captions for a video where a teacher explains a concept in physics. Include both spoken words and key gestures."</p>
+                <p><strong>Best Practice:</strong> Include non-verbal cues like pauses or gestures to enhance comprehension.</p>
+            </div>
 
-            <section class="manual-support">
-                <h2>Getting Support</h2>
-                <p>If you encounter any issues while using the Digital Accessibility Prompt Library or have suggestions for improvement, our support team is here to help.</p>
-                <p><strong>Contact Options:</strong></p>
-                <ul>
-                    <li>Visit our <a href="contact.php">Contact Us</a> page to send a direct message through our online form.</li>
-                </ul>
-                <p>We strive to respond to all inquiries within 24 hours. Additionally, you can check out our FAQ section (coming soon) for quick answers to common questions.</p>
-            </section>
-        </main>
-    </div>
-    <footer>
-        <p>&copy; 2024 Digital Accessibility Project. All Rights Reserved.</p>
-    </footer>
+            <!-- Example 3 -->
+            <div class="example-box">
+                <h3>3. Generating Alt Text for Complex Charts</h3>
+                <p><strong>Scenario:</strong> You have a complex chart showing data trends and need appropriate alt text.</p>
+                <p><strong>Prompt Example:</strong> "Generate a detailed description for a chart illustrating quarterly sales growth across four regions."</p>
+                <p><strong>Best Practice:</strong> Describe key data points, patterns, and outliers to ensure users can grasp essential insights.</p>
+                <br>
+            </div>
+        </section>
+
+        <!-- Additional Resources & Support -->
+        <section class="manual-support">
+            <h2>Additional Resources & Support</h2>
+            <ul>
+                <li><a href="contact.php">Contact Us:</a> Submit support requests or feedback via our contact form.</li>
+                <li>FAQ (coming soon): Answers to common questions about using the library and implementing accessibility practices.</li>
+            </ul>
+        </section>
+
+        <!-- Best Practices -->
+        <section class="manual-best-practices">
+            <h2>Best Practices for Accessibility</h2>
+            <ul>
+                <li><strong>Ensure Text Clarity:</strong> Use simple, clear language in your alt texts and prompts.</li>
+                <li><strong>User Experience Focus:</strong> Design with the needs of users with various disabilities in mind.</li>
+                <li><strong>Regular Testing:</strong> Test your website’s accessibility frequently using tools like screen readers.</li>
+            </ul>
+            <p>By following these practices, you can ensure a more accessible web experience for all users.</p>
+        </section>
+    </main>
+</div>
+
+<footer>
+    <p>&copy; 2024 Digital Accessibility Project. All Rights Reserved.</p>
+</footer>
+
 </body>
 </html>
