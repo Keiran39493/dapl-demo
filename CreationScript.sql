@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2024 at 08:04 AM
+-- Generation Time: Oct 01, 2024 at 03:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,130 @@ SET time_zone = "+00:00";
 --
 -- Database: `accessibility_project`
 --
+CREATE DATABASE IF NOT EXISTS `accessibility_project` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `accessibility_project`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `accessibility_issues`
+--
+
+CREATE TABLE `accessibility_issues` (
+  `issue_id` int(11) NOT NULL,
+  `issue_name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `accessibility_issues`
+--
+
+INSERT INTO `accessibility_issues` (`issue_id`, `issue_name`, `description`) VALUES
+(1, 'Visual Impairment', 'Difficulties with vision, including blindness and low vision.'),
+(2, 'Hearing Impairment', 'Challenges with hearing, including deafness and hearing loss.'),
+(5, 'Color Blindness', 'Inability to distinguish between certain colors, such as red and green.'),
+(6, 'Speech Impairment', 'Difficulties with speech and communication.'),
+(7, 'Photosensitivity', 'Sensitivity to flashing lights or patterns, which can trigger seizures or other symptoms.'),
+(8, 'Motor Impairment', 'Difficulty with fine motor skills, affecting the ability to use a mouse or keyboard.'),
+(9, 'Reading Difficulty', 'Challenges with reading due to dyslexia or other conditions.'),
+(10, 'Severe Arthritis', 'Joint pain and stiffness that can make navigation difficult.'),
+(15, 'Cognitive Impairment', NULL),
+(16, 'Mobility Impairment', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookmarks`
+--
+
+CREATE TABLE `bookmarks` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `prompt_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `feedback_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `rating` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`feedback_id`, `user_id`, `name`, `email`, `message`, `created_at`, `rating`) VALUES
+(1, 132, 'John Doe', 'john.doe@example.com', 'Great website! The accessibility features are really helpful.', '2024-09-27 03:33:16', NULL),
+(2, 133, 'Jane Smith', 'jane.smith@example.com', 'I found the color contrast advice very useful. Keep up the good work!', '2024-09-27 03:33:16', 5),
+(4, 135, 'Emily Davis', 'emily.davis@example.com', 'I had some issues with the font size options. They could be more flexible.', '2024-09-27 03:33:16', 3),
+(6, 137, 'Sarah Wilson', 'sarah.wilson@example.com', 'The ability to bookmark prompts is very convenient.', '2024-09-27 03:33:16', 4),
+(7, 138, 'Muhammad Ali', 'muhammad.ali@example.com', 'Good selection of accessibility tools, but the load time could be improved.', '2024-09-27 03:33:16', 4),
+(8, 139, 'Li Wei', 'li.wei@example.com', 'I appreciate the effort put into making the site accessible for everyone.', '2024-09-27 03:33:16', 5),
+(9, 140, 'Ana Garcia', 'ana.garcia@example.com', 'The contact form works well, but I would suggest adding a captcha to prevent spam.', '2024-09-27 03:33:16', 5),
+(10, 141, 'Vikram Patel', 'vikram.patel@example.com', 'The website has been very helpful in my studies. Thank you!', '2024-09-27 03:33:16', 4),
+(11, 142, 'Olivia Brown', 'olivia.brown@example.com', 'I love the clear layout and easy-to-find information.', '2024-09-27 03:33:16', 3),
+(12, 143, 'Daniel Miller', 'daniel.miller@example.com', 'The feedback section could use more features, such as the ability to upload files.', '2024-09-27 03:33:16', NULL),
+(17, 7, 'admin', '', 'njhboubvgv', '2024-09-29 08:39:23', 3),
+(18, 7, 'admin', '', 'njhboubvgv', '2024-09-29 08:39:28', 2),
+(19, 7, 'admin', '', 'njhboubvgvhjvjhv kh', '2024-09-29 08:41:10', 3),
+(21, 7, 'admin', '', 'hyubuo', '2024-09-29 08:45:07', 5),
+(22, 7, 'admin', '', 'hyubuo', '2024-09-29 08:47:23', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prompts`
+--
+
+CREATE TABLE `prompts` (
+  `id` int(11) NOT NULL,
+  `problem` varchar(255) DEFAULT NULL,
+  `prompt_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prompts`
+--
+
+INSERT INTO `prompts` (`id`, `problem`, `prompt_text`) VALUES
+(1, 'Images without text alternatives', 'Describe an image of a person using a laptop in a park. The description should be detailed and cover the surroundings as well.'),
+(2, 'Videos without captions', 'Generate detailed captions for a video where a professor explains the basics of quantum physics in a classroom setting.'),
+(3, 'Insufficient color contrast', 'Suggest a color scheme for a website that ensures a contrast ratio of at least 4.5:1 for text against its background. Provide specific color codes for both text and background.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recommendations`
+--
+
+CREATE TABLE `recommendations` (
+  `recommendation_id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `content` text DEFAULT NULL,
+  `tag_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tags`
+--
+
+CREATE TABLE `tags` (
+  `tag_id` int(11) NOT NULL,
+  `tag_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -60,9 +184,121 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `date_created`,
 (149, 'kevin_nakamura', 'kevin.nakamura@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-05-21 16:00:00', 'general user'),
 (150, 'maria_rosales', 'maria.rosales@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-06-04 16:00:00', 'general user');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_accessibility`
+--
+
+CREATE TABLE `user_accessibility` (
+  `user_accessibility_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `issue_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_accessibility`
+--
+
+INSERT INTO `user_accessibility` (`user_accessibility_id`, `user_id`, `issue_id`) VALUES
+(82, 132, 1),
+(83, 132, 5),
+(84, 133, 2),
+(87, 135, 1),
+(88, 135, 7),
+(92, 137, 10),
+(93, 137, 8),
+(94, 138, 2),
+(97, 139, 7),
+(98, 140, 1),
+(99, 140, 8),
+(100, 141, 6),
+(101, 141, 9),
+(102, 142, 10),
+(103, 142, 2),
+(105, 142, 5),
+(107, 144, 7),
+(108, 144, 9),
+(109, 144, 10),
+(110, 145, 1),
+(112, 146, 5),
+(113, 147, 8),
+(114, 147, 9),
+(115, 148, 2),
+(117, 148, 6),
+(118, 148, 7),
+(119, 149, 10),
+(120, 149, 1),
+(122, 150, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_recommendations`
+--
+
+CREATE TABLE `user_recommendations` (
+  `user_recommendation_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `recommendation_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_tags`
+--
+
+CREATE TABLE `user_tags` (
+  `user_tag_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `tag_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `accessibility_issues`
+--
+ALTER TABLE `accessibility_issues`
+  ADD PRIMARY KEY (`issue_id`);
+
+--
+-- Indexes for table `bookmarks`
+--
+ALTER TABLE `bookmarks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `prompt_id` (`prompt_id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`feedback_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `prompts`
+--
+ALTER TABLE `prompts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  ADD PRIMARY KEY (`recommendation_id`),
+  ADD KEY `tag_id` (`tag_id`);
+
+--
+-- Indexes for table `tags`
+--
+ALTER TABLE `tags`
+  ADD PRIMARY KEY (`tag_id`),
+  ADD UNIQUE KEY `tag_name` (`tag_name`);
 
 --
 -- Indexes for table `users`
@@ -73,14 +309,136 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `user_accessibility`
+--
+ALTER TABLE `user_accessibility`
+  ADD PRIMARY KEY (`user_accessibility_id`),
+  ADD KEY `issue_id` (`issue_id`),
+  ADD KEY `user_accessibility_ibfk_1` (`user_id`);
+
+--
+-- Indexes for table `user_recommendations`
+--
+ALTER TABLE `user_recommendations`
+  ADD PRIMARY KEY (`user_recommendation_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `recommendation_id` (`recommendation_id`);
+
+--
+-- Indexes for table `user_tags`
+--
+ALTER TABLE `user_tags`
+  ADD PRIMARY KEY (`user_tag_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `tag_id` (`tag_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `accessibility_issues`
+--
+ALTER TABLE `accessibility_issues`
+  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `bookmarks`
+--
+ALTER TABLE `bookmarks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `prompts`
+--
+ALTER TABLE `prompts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  MODIFY `recommendation_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tags`
+--
+ALTER TABLE `tags`
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+
+--
+-- AUTO_INCREMENT for table `user_accessibility`
+--
+ALTER TABLE `user_accessibility`
+  MODIFY `user_accessibility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+
+--
+-- AUTO_INCREMENT for table `user_recommendations`
+--
+ALTER TABLE `user_recommendations`
+  MODIFY `user_recommendation_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_tags`
+--
+ALTER TABLE `user_tags`
+  MODIFY `user_tag_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bookmarks`
+--
+ALTER TABLE `bookmarks`
+  ADD CONSTRAINT `bookmarks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `bookmarks_ibfk_2` FOREIGN KEY (`prompt_id`) REFERENCES `prompts` (`id`);
+
+--
+-- Constraints for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  ADD CONSTRAINT `recommendations_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_accessibility`
+--
+ALTER TABLE `user_accessibility`
+  ADD CONSTRAINT `user_accessibility_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_accessibility_ibfk_2` FOREIGN KEY (`issue_id`) REFERENCES `accessibility_issues` (`issue_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_recommendations`
+--
+ALTER TABLE `user_recommendations`
+  ADD CONSTRAINT `user_recommendations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_recommendations_ibfk_2` FOREIGN KEY (`recommendation_id`) REFERENCES `recommendations` (`recommendation_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_tags`
+--
+ALTER TABLE `user_tags`
+  ADD CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
