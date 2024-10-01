@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2024 at 03:10 AM
+-- Generation Time: Oct 01, 2024 at 04:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -93,7 +93,6 @@ INSERT INTO `feedback` (`feedback_id`, `user_id`, `name`, `email`, `message`, `c
 (9, 140, 'Ana Garcia', 'ana.garcia@example.com', 'The contact form works well, but I would suggest adding a captcha to prevent spam.', '2024-09-27 03:33:16', 5),
 (10, 141, 'Vikram Patel', 'vikram.patel@example.com', 'The website has been very helpful in my studies. Thank you!', '2024-09-27 03:33:16', 4),
 (11, 142, 'Olivia Brown', 'olivia.brown@example.com', 'I love the clear layout and easy-to-find information.', '2024-09-27 03:33:16', 3),
-(12, 143, 'Daniel Miller', 'daniel.miller@example.com', 'The feedback section could use more features, such as the ability to upload files.', '2024-09-27 03:33:16', NULL),
 (17, 7, 'admin', '', 'njhboubvgv', '2024-09-29 08:39:23', 3),
 (18, 7, 'admin', '', 'njhboubvgv', '2024-09-29 08:39:28', 2),
 (19, 7, 'admin', '', 'njhboubvgvhjvjhv kh', '2024-09-29 08:41:10', 3),
@@ -109,17 +108,31 @@ INSERT INTO `feedback` (`feedback_id`, `user_id`, `name`, `email`, `message`, `c
 CREATE TABLE `prompts` (
   `id` int(11) NOT NULL,
   `problem` varchar(255) DEFAULT NULL,
-  `prompt_text` text NOT NULL
+  `prompt_text` text NOT NULL,
+  `ai_recommendation` varchar(255) DEFAULT NULL,
+  `guideline` varchar(10) DEFAULT NULL,
+  `ai_link` varchar(255) DEFAULT NULL,
+  `ai_description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `prompts`
 --
 
-INSERT INTO `prompts` (`id`, `problem`, `prompt_text`) VALUES
-(1, 'Images without text alternatives', 'Describe an image of a person using a laptop in a park. The description should be detailed and cover the surroundings as well.'),
-(2, 'Videos without captions', 'Generate detailed captions for a video where a professor explains the basics of quantum physics in a classroom setting.'),
-(3, 'Insufficient color contrast', 'Suggest a color scheme for a website that ensures a contrast ratio of at least 4.5:1 for text against its background. Provide specific color codes for both text and background.');
+INSERT INTO `prompts` (`id`, `problem`, `prompt_text`, `ai_recommendation`, `guideline`, `ai_link`, `ai_description`) VALUES
+(6, 'Ensure that images on a webpage or HTML code contain appropriate and descriptive alt attributes, in accordance with accessibility standards.', 'Identify images without appropriate alternative text that fail to meet WCAG 1.1 Text Alternatives guidelines. Provide specific recommendations or code corrections to ensure all non-text content is described properly for accessibility. If a screenshot is provided, analyse the flagged issues and suggest corrections. [insert code here/screenshot here]', 'Gemini', '1.1', 'https://gemini.google.com', 'Gemini AI offers the best balance of context-specific alt text, clarity, and usability. Its concise, detailed descriptions fit the content\'s context and ensure a good experience for screen reader users. It also suggests handling redundant information, helping developers avoid unnecessary alt text, making it practical for accessibility compliance.'),
+(7, 'check the accessibility of time-based media, such as videos and audio files, ensuring they comply with WCAG 1.2 guidelines. ', 'Analyse the provided HTML code or screenshot or any issues related to time-based media accessibility (video or audio). Identify missing captions, transcripts, or audio descriptions for video and audio elements in accordance with WCAG 1.2 Time-based Media guidelines. Recommend specific solutions or corrected code to ensure that all users, including those with hearing or visual impairments, can access the media content.', 'Gemini', '1.2', 'https://gemini.google.com', 'Gemini provides the best balance of detail, context, and usability, with clear instructions and detailed, context-specific captions and transcripts, ensuring full compliance with WCAG 1.2.'),
+(8, 'Identify and Correct improper use of non-semantic elements (e.g., using <div> or <span> instead of proper headings, lists, or form elem', 'Analyse the provided HTML code or accessibility report for issues related to adaptable content. Identify improper use of non-semantic elements (e.g., <div> or <span> instead of proper headings), missing associations for form labels, or incorrect structure. Provide code corrections to ensure semantic structure.', 'Copilot', '1.3', 'https://copilot.microsoft.com/', 'Copilot is recommended for its comprehensive approach, as it incorporates <fieldset> and <legend> for improved structure. For simplicity, Gemini AI offers clear and easy-to-implement suggestions.'),
+(9, 'Identifying issues that impact the visual clarity and distinguishability of web content.', 'Analyse the provided HTML code or accessibility report for issues related to the distinguishability of content under WCAG 1.4 Distinguishable guidelines. Focus on identifying insufficient colour contrast, use of colour alone to convey information, and text that may be too small or difficult to read. Recommend code adjustments or alternative design solutions to ensure all users can clearly see and distinguish the content, regardless of visual impairments.', 'Gemini', '1.4', 'https://gemini.google.com', 'Gemini AI provides detailed, practical suggestions, including specific colour adjustments, icons, and font size improvements, making it the best choice for ensuring compliance with WCAG 1.4 Distinguishable guidelines.'),
+(10, 'identifying interactive elements on a webpage that are not keyboard accessible.', 'Analyze the provided HTML code or accessibility report for any issues related to keyboard accessibility under WCAG 2.1 Keyboard Accessible guidelines. Focus on identifying interactive elements (e.g., buttons, links, forms) that are not accessible using the keyboard alone. Recommend code adjustments or alternative solutions to ensure all functionality is operable through keyboard input without requiring a mouse.', 'Gemini', '2.1', 'https://gemini.google.com', 'Gemini AI is recommended for its balance of clarity and comprehensive solutions, making it the best choice for ensuring full compliance with WCAG 2.1 Keyboard Accessible guidelines.'),
+(11, 'Ensuring that all users, regardless of ability, have adequate time to complete tasks on a webpage.', 'Analyse the provided HTML code or accessibility report for issues related to time limits under WCAG 2.2 Enough Time guidelines. Focus on identifying time-sensitive content or interactions that do not offer users the ability to extend, pause, or adjust the time limits. Recommend solutions to ensure that users with disabilities, such as those with cognitive impairments, have enough time to complete tasks or access the content.', 'Gemini', '2.2', 'https://gemini.google.com', 'Gemini AI for its balance of detail, clarity, and practicality, making it the most comprehensive choice for ensuring compliance with WCAG 2.2 Enough Time.'),
+(12, 'Identify content that could potentially cause seizures or physical reactions for users with photosensitive epilepsy.', 'Analyse the provided HTML code or accessibility report for any content that may cause seizures or physical reactions under WCAG 2.3 Seizures and Physical Reactions guidelines. Focus on identifying flashing content that blinks more than three times per second, high-contrast animations, or content that may trigger photosensitive epilepsy. Recommend solutions to remove or modify the flashing content to ensure user safety.', 'Gemini', '2.3', 'https://gemini.google.com', 'Gemini AI is recommended due to its balance of detail, usability, and clarity, making it the best option for ensuring full compliance with WCAG 2.3.'),
+(13, 'Identifying navigation-related issues on a webpage, highlighting problems such as missing skip links, improper heading structures, unclear link text, and the absence of ARIA landmarks.', 'Analyse the provided HTML code or accessibility report for issues related to navigation under WCAG 2.4 Navigable guidelines. Focus on identifying missing skip links, improper heading structures, unclear link text, and missing or incomplete landmarks that hinder navigation for users with disabilities. Recommend code improvements or design changes to ensure that the content is easy to navigate using keyboards, screen readers, and other assistive technologies.', 'Gemini', '2.4', 'https://gemini.google.com', 'Gemini AI is recommended for its thorough and actionable solutions, making it the best option for ensuring compliance with WCAG 2.4 Navigable guidelines..'),
+(14, 'This prompt is used to identify and address accessibility issues related to input methods, ensuring interactive elements on a webpage are accessible via multiple input methods, such as keyboard, touch, and voice commands.', 'Analyse the provided HTML code or accessibility report for any issues related to input methods under WCAG 2.5 Input Modalities guidelines. Focus on identifying interactive elements that are not accessible through various input methods, such as touch, voice control, or keyboard. Recommend code adjustments or design changes to ensure that users can interact with the content through multiple input modalities, including touch gestures, speech commands, and keyboard navigation.', 'Gemini AI', '2.5', 'https://gemini.google.com', 'Gemini AI is recommended for its detailed and easy-to-implement solutions.'),
+(15, 'analysing web content to ensure it is readable and understandable, particularly for users with cognitive impairments.', 'Analyse the provided HTML code or accessibility report for issues related to text readability under WCAG 3.1 Readable guidelines. Focus on identifying missing language declarations, overly complex language, and undefined abbreviations or jargon. Recommend solutions to simplify language, add appropriate language attributes, and provide expansions for abbreviations or jargon to ensure the content is accessible and understandable by a wide range of users, including those with cognitive impairments.', 'Gemini', '3.1', 'https://gemini.google.com', 'Gemini AI is recommended for its comprehensive, clear, and actionable solutions.'),
+(16, 'Identify issues with unpredictable content behaviour, such as unexpected focus changes or automatic page reloads, and ensure that user interactions behave consistently.', 'Analyse the provided HTML code or accessibility report for any issues related to unpredictable content behaviour under WCAG 3.2 Predictable guidelines. Focus on identifying unexpected context changes (e.g., forms submitting automatically, links opening in new windows without warning) and ensure that user interactions behave consistently. Recommend code or design adjustments to make the interactions predictable and consistent for users.', 'Gemini', '3.2', 'https://gemini.google.com', 'Gemini AI is the best choice for its detailed and easy-to-implement solutions.'),
+(17, 'Identify accessibility issues in forms, such as missing labels, unclear error messages, and the absence of guidance or input validation.', 'Analyse the provided HTML code or accessibility report for issues related to input assistance under WCAG 3.3 Input Assistance guidelines. Focus on identifying missing form labels, unclear error messages, and the lack of suggestions or instructions for users when completing forms. Recommend code or design improvements to ensure that users receive adequate guidance, error prevention, and correction mechanisms during form interactions.', 'Gemini', '3.3', 'https://gemini.google.com', 'Gemini AI is the best choice for its comprehensive, but easy-to-follow solutions.'),
+(18, 'Ensuring that web content is compatible with a wide range of assistive technologies, such as screen readers, by identifying and correcting issues with ARIA attributes, non-standard HTML elements, and keyboard accessibility.', 'Analyse the provided HTML code or accessibility report for compatibility issues under WCAG 4.1 Compatible guidelines. Focus on identifying incorrect or missing ARIA attributes, non-standard HTML elements, and potential problems with assistive technologies like screen readers. Recommend solutions to ensure that the code is properly structured and fully compatible with a wide range of assistive technologies.', 'Copilot is suitable in this situation for generating more technical responses. If Gemini can be used if you require easier solutions.', '4.1', 'https://copilot.microsoft.com', 'Gemini AI is comprehensive, while Copilot offers more technical responses.');
 
 -- --------------------------------------------------------
 
@@ -175,7 +188,6 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `date_created`,
 (140, 'ana_garcia', 'ana.garcia@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-01-16 16:00:00', 'general user'),
 (141, 'vikram_patel', 'vikram.patel@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-01-30 16:00:00', 'general user'),
 (142, 'olivia_brown', 'olivia.brown@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-02-13 16:00:00', 'general user'),
-(143, 'daniel_miller', 'daniel.miller@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-02-27 16:00:00', 'general user'),
 (144, 'nina_fernandez', 'nina.fernandez@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-03-12 16:00:00', 'general user'),
 (145, 'kofi_mensah', 'kofi.mensah@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-03-26 16:00:00', 'general user'),
 (146, 'sakura_tanaka', 'sakura.tanaka@example.com', '$2y$10$abcdefghijklmnopqrstuvwx', '2024-04-09 16:00:00', 'general user'),
@@ -346,7 +358,7 @@ ALTER TABLE `accessibility_issues`
 -- AUTO_INCREMENT for table `bookmarks`
 --
 ALTER TABLE `bookmarks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -358,7 +370,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `prompts`
 --
 ALTER TABLE `prompts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `recommendations`
