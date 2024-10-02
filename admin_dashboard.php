@@ -91,29 +91,36 @@ $bookmarks_stmt->close();
     <h1>Admin Dashboard</h1>
 
     <div class="admin-section">
-        <h2>Manage Accessibility Issues</h2>
-        <p>You can add, edit, and delete accessibility issues here.</p>
-        <a href="manage_issues.php" class="admin-btn">Manage Accessibility Issues</a>
-    </div>
+    <h2>Manage Users</h2>
+    <p>View and manage registered users.</p>
+    <a href="manage_users.php" class="admin-btn">Manage Users</a>
+</div>
 
-    <div class="admin-section">
-        <h2>View Website Stats</h2>
-        <p>View the statistics of the website, including the number of users and popular accessibility issues.</p>
-        <a href="view_stats.php" class="admin-btn">View Stats</a>
-    </div>
+<div class="admin-section">
+    <h2>Manage Prompts</h2>
+    <p>View and manage Prompts in the Library.</p>
+    <a href="manage_prompts.php" class="admin-btn">Manage Prompts</a>
+</div>
 
-    <div class="admin-section">
-        <h2>Manage Users</h2>
-        <p>View and manage registered users.</p>
-        <a href="manage_users.php" class="admin-btn">Manage Users</a>
-    </div>
+<div class="admin-section">
+    <h2>Manage Accessibility Issues</h2>
+    <p>You can add, edit, and delete accessibility issues here.</p>
+    <a href="manage_issues.php" class="admin-btn">Manage Accessibility Issues</a>
+</div>
 
-    <!-- Feedback Section -->
-    <div class="admin-section">
-        <h2>User Feedback</h2>
-        <p>View feedback left by users.</p>
-        <a href="feedback.php" class="admin-btn">View Feedback</a>
-    </div>
+<div class="admin-section">
+    <h2>View Website Stats</h2>
+    <p>View the statistics of the website, including the number of users and popular accessibility issues.</p>
+    <a href="view_stats.php" class="admin-btn">View Stats</a>
+</div>
+
+<!-- Feedback Section -->
+<div class="admin-section">
+    <h2>User Feedback</h2>
+    <p>View feedback left by users.</p>
+    <a href="feedback.php" class="admin-btn">View Feedback</a>
+</div>
+
 
     <!-- Bookmarked Prompts Section -->
     <div class="admin-section">

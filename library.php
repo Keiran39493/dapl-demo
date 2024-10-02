@@ -61,19 +61,19 @@ $stmt->close();
     <style>
         /* Star Bookmark Styling */
         .star {
-            font-size: 25px;  /* Larger star size */
+            font-size: 25px;  
             color: #ccc;      /* Default gray color */
             cursor: pointer;
             transition: color 0.2s, transform 0.2s;  /* Smooth transitions */
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);  /* Light shadow for depth */
-            margin-left: 20px; /* Slight movement of the star to the right */
+            margin-left: 20px;
         }
 
         .star.active {
             color: gold;
         }
 
-        /* Remove button styling to ensure only the star is styled */
+       
         button.star {
             background: none;
             border: none;
@@ -86,7 +86,7 @@ $stmt->close();
             margin-bottom: 25px;
             display: flex;
             flex-wrap: wrap; /* Ensures buttons wrap onto the next line if necessary */
-            gap: 10px; /* Space between buttons */
+            gap: 10px; 
         }
 
         .filter-buttons button {
@@ -174,18 +174,18 @@ $stmt->close();
                     <button onclick="filterPrompts('2.2')">WCAG 2.2: Enough Time</button>
                     <button onclick="filterPrompts('2.3')">WCAG 2.3: Seizures and Physical Reactions</button>
                     <button onclick="filterPrompts('2.4')">WCAG 2.4: Navigable</button>
-                    <button onclick="filterPrompts('2.5')">WCAG 2.5: Input Modalities</button> <!-- Added for WCAG 2.5 -->
-                    <button onclick="filterPrompts('3.1')">WCAG 3.1: Readable</button> <!-- Added for WCAG 3.1 -->
-                    <button onclick="filterPrompts('3.2')">WCAG 3.2: Predictable</button> <!-- Added for WCAG 3.2 -->
+                    <button onclick="filterPrompts('2.5')">WCAG 2.5: Input Modalities</button> 
+                    <button onclick="filterPrompts('3.1')">WCAG 3.1: Readable</button> 
+                    <button onclick="filterPrompts('3.2')">WCAG 3.2: Predictable</button> 
                     <button onclick="filterPrompts('3.3')">WCAG 3.3: Input Assistance</button>
-                    <button onclick="filterPrompts('4.1')">WCAG 4.1: Compatible</button> <!-- Added for WCAG 4.1 -->
+                    <button onclick="filterPrompts('4.1')">WCAG 4.1: Compatible</button> 
                     <button onclick="filterPrompts('all')">Show All Prompts</button>
                 </div>
 
                 <ul class="prompt-list" id="promptList">
                     <?php foreach ($prompts as $prompt): ?>
                     <li class="prompt-item" data-guideline="<?= htmlspecialchars($prompt['guideline']) ?>">
-                        <!-- Display WCAG label above problem -->
+                        
                         <span style="font-weight: bold; font-size: 14px; color: #000;">
                             <strong>(WCAG <?= htmlspecialchars($prompt['guideline']) ?>: <?= htmlspecialchars(
                              $prompt['guideline'] == '1.1' ? 'Text Alternatives' : (

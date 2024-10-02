@@ -19,7 +19,7 @@ $stmt->fetch();
 $stmt->close();
 
 // Check if the user has the correct role (regular user or developer)
-$allowed_roles = ['general user', 'developer']; // Add your allowed roles here
+$allowed_roles = ['general_user', 'developer']; 
 if (!in_array($role, $allowed_roles)) {
     // Redirect to an unauthorized page or an error page
     header("Location: index.php");
@@ -72,9 +72,9 @@ if (isset($_POST['bookmark']) && isset($_POST['prompt_id'])) {
     exit();
 }
 
-// Fetch bookmarked prompts
+// Fetch bookmarked prompts (including AI recommendation and link)
 $bookmarks_stmt = $conn->prepare("
-    SELECT p.id, p.problem, p.prompt_text, b.id as bookmark_id 
+    SELECT p.id, p.problem, p.prompt_text, p.ai_recommendation, p.ai_link, b.id as bookmark_id 
     FROM prompts p
     JOIN bookmarks b ON p.id = b.prompt_id
     WHERE b.user_id = ?
@@ -182,12 +182,9 @@ $bookmarks_stmt->close();
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 150px; /* Fixed width for uniformity */
+            width: 150px; 
         }
 
-        .prompt-item button:hover {
-            background-color: #003d80;
-        }
 
         ul {
             margin: 10px;
@@ -210,6 +207,17 @@ $bookmarks_stmt->close();
             if (confirm("Are you sure you want to remove this bookmark?")) {
                 document.getElementById(formId).submit();
             }
+        }
+
+        function copyPromptOnClick(id, link) {
+            const textElement = document.getElementById(id);
+            const textToCopy = textElement.dataset.prompt;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Prompt copied to clipboard!");
+                window.open(link, '_blank');
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
         }
     </script>
 </head>
@@ -250,6 +258,13 @@ $bookmarks_stmt->close();
                         <p id="prompt<?= $prompt['id'] ?>" data-prompt="<?= htmlspecialchars($prompt['prompt_text']) ?>">
                             <strong>Prompt:</strong> <?= htmlspecialchars($prompt['prompt_text']) ?>
                         </p>
+                        <p>
+                            <strong>AI Recommendation:</strong> 
+                            <a href="javascript:void(0);" onclick="copyPromptOnClick('prompt<?= $prompt['id'] ?>', '<?= htmlspecialchars($prompt['ai_link']) ?>')">
+                                <?= htmlspecialchars($prompt['ai_recommendation']) ?>
+                            </a>
+                        </p>
+
                     </div>
                     <div class="prompt-actions">
                         <button onclick="copyPrompt('prompt<?= $prompt['id'] ?>')">Copy Prompt</button>
@@ -267,7 +282,7 @@ $bookmarks_stmt->close();
         <ul>
             <li><a href="about.php">About Us</a></li>
             <li><a href="library.php">Your Library</a></li>
-            <li><a href="contact.php">Contact Support</a></li>
+            <li><a href="contact.php">Contact Us</a></li>
             <li><a href="logout.php" onclick="return confirmLogout();">Logout</a></li>
         </ul>
     </div>

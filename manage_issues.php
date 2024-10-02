@@ -8,7 +8,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-// Handle form submissions for adding, editing, and deleting
+// Handle form submissions for adding, editing, and deleting accessibility issues
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Add new issue
     if (isset($_POST['add_issue'])) {
@@ -22,16 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Edit issue
-    if (isset($_POST['edit_issue'])) {
+    // Edit issue description
+    if (isset($_POST['edit_description'])) {
         $issue_id = $_POST['issue_id'];
-        $issue_name = trim($_POST['issue_name']);
-        if (!empty($issue_name)) {
-            $edit_stmt = $conn->prepare("UPDATE accessibility_issues SET issue_name = ? WHERE issue_id = ?");
-            $edit_stmt->bind_param("si", $issue_name, $issue_id);
+        $description = trim($_POST['description']);
+        if (!empty($description)) {
+            $edit_stmt = $conn->prepare("UPDATE accessibility_issues SET description = ? WHERE issue_id = ?");
+            $edit_stmt->bind_param("si", $description, $issue_id);
             $edit_stmt->execute();
             $edit_stmt->close();
-            $message = "Issue updated!";
+            $message = "Issue description updated!";
+            $message_type = "success"; // Mark this as a success message
         }
     }
 
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch existing accessibility issues
-$issues_stmt = $conn->prepare("SELECT issue_id, issue_name FROM accessibility_issues ORDER BY issue_name ASC");
+$issues_stmt = $conn->prepare("SELECT issue_id, issue_name, description FROM accessibility_issues ORDER BY issue_name ASC");
 $issues_stmt->execute();
 $issues_result = $issues_stmt->get_result();
 $issues_stmt->close();
@@ -59,49 +60,8 @@ $issues_stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Accessibility Issues</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        header {
-            background-color: #F1F1E9;
-            color: white;
-            padding: 20px;
-            display: flex;
-            text-align: left;
-            margin-bottom: 20px;
-            justify-content: space-between;
-        }
-
-        header .logo {
-            display: block;
-            margin-right: auto;
-            max-width: 150px;
-            height: auto;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #F1F1E9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-
-        nav {
-            display: flex;
-            gap: 15px;
-        }
-
-        nav a {
-            color: black;
-            padding: 10px 10px;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        nav a:hover {
-            background-color: white;
-        }
-
         .container {
             width: 80%;
             margin: auto;
@@ -111,51 +71,55 @@ $issues_stmt->close();
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            color: #413932;
-            text-align: center;
-        }
-
-        h2 {
-            color: #00539CFF;
-            margin-bottom: 15px;
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
             text-align: left;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .success-message {
-            color: green;
-            background-color: #dfd;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
+        .table thead {
+            background-color: #00539CFF;
+            color: white;
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
             text-align: center;
         }
 
-        .issues-list ul {
-            list-style-type: none;
-            padding: 0;
+        .table tr:hover {
+            background-color: #f1f1f1;
         }
 
-        .issues-list li {
-            background-color: #f9f9f9;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .table th {
+            text-align: center;
+            background-color: #00539CFF;
         }
 
-        .issues-list input[type="text"] {
-            width: 70%;
+        h1, h2 {
+            color: black;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .form input[type="text"], .form textarea {
+            width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
-        .button, .delete-button {
-            padding: 5px 10px;
+        .form button {
+            padding: 10px;
             background-color: #00539CFF;
             color: white;
             border: none;
@@ -163,24 +127,8 @@ $issues_stmt->close();
             cursor: pointer;
         }
 
-        .button:hover, .delete-button:hover {
+        .form button:hover {
             background-color: #003d80;
-        }
-
-        .delete-button {
-            background-color: red;
-        }
-
-        .delete-button:hover {
-            background-color: darkred;
-        }
-
-        .add-issue-form input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 15px;
         }
 
         .back-link {
@@ -195,52 +143,87 @@ $issues_stmt->close();
             text-decoration: underline;
         }
 
-        footer {
-            background-color: #333;
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            padding: 8px 12px;
+            background-color: #00539CFF;
+            border: none;
+            border-radius: 5px;
             color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
-            border-radius: 0 0 8px 8px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #003d80;
+        }
+
+        .edit-description-form {
+            display: none; /* Hidden by default */
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .issue-name {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<?php include('header.php'); ?> <!-- Include the admin navigation -->
+<?php include('header.php'); ?> 
 
 <div class="container">
-    <a href="admin_dashboard.php" class="back-link">&larr; Back to Dashboard</a> <!-- Back to Dashboard link -->
+    <!-- Back Link -->
+    <a href="admin_dashboard.php" class="back-link">&larr; Back to Dashboard</a>
 
     <h1>Manage Accessibility Issues</h1>
 
     <?php if (isset($message)): ?>
-        <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
+        <p class="<?php echo isset($message_type) && $message_type === 'success' ? 'success-message' : 'error-message'; ?>">
+            <?php echo htmlspecialchars($message); ?>
+        </p>
     <?php endif; ?>
 
-    <div class="issues-list">
-        <h2>Existing Issues</h2>
-        <ul>
-            <?php while ($row = $issues_result->fetch_assoc()): ?>
-                <li>
-                    <form method="POST">
-                        <input type="hidden" name="issue_id" value="<?php echo $row['issue_id']; ?>">
-                        <input type="text" name="issue_name" value="<?php echo htmlspecialchars($row['issue_name']); ?>">
-                        <div class="issue-actions">
-                            <button type="submit" name="edit_issue" class="button">Update</button>
-                            <button type="submit" name="delete_issue" class="delete-button" onclick="return confirm('Are you sure you want to delete this issue?');">Delete</button>
-                        </div>
-                    </form>
-                </li>
-            <?php endwhile; ?>
-        </ul>
-    </div>
+    <!-- Existing Issues List -->
+    <ul class="issues-list">
+        <?php while ($row = $issues_result->fetch_assoc()): ?>
+            <li>
+                <form method="POST">
+                    <p class="issue-name">Issue Name: <?php echo htmlspecialchars($row['issue_name']); ?></p>
+                    <p>Description: <?php echo htmlspecialchars($row['description'] ?? 'No description provided'); ?></p>
+                    <div class="button-container">
+                        <button type="button" onclick="toggleEditForm('<?php echo $row['issue_id']; ?>')">Edit Description</button>
+                        <button type="submit" name="delete_issue" onclick="return confirm('Are you sure you want to delete this issue?');">Delete Issue</button>
+                    </div>
 
-    <div class="add-issue-form">
-        <h2>Add New Issue</h2>
+                    <!-- Edit Description Form (will appear under the issue) -->
+                    <div id="edit-description-form-<?php echo $row['issue_id']; ?>" class="edit-description-form">
+                        <h3>Edit Issue Description</h3>
+                        <input type="hidden" name="issue_id" value="<?php echo $row['issue_id']; ?>">
+                        <textarea name="description" placeholder="Edit issue description" required><?php echo htmlspecialchars($row['description']); ?></textarea>
+                        <button type="submit" name="edit_description" class="update-button">Update Description</button>
+                    </div>
+                </form>
+            </li>
+        <?php endwhile; ?>
+    </ul>
+
+    <!-- Add New Issue -->
+    <div class="form">
+        <h3>Add New Issue</h3>
         <form method="POST">
             <input type="text" name="new_issue" placeholder="Enter new issue" required>
-            <button type="submit" name="add_issue" class="button">Add Issue</button>
+            <button type="submit" name="add_issue">Add Issue</button>
         </form>
     </div>
 </div>
@@ -248,6 +231,21 @@ $issues_stmt->close();
 <footer>
     <p>&copy; 2024 Digital Accessibility Project. All rights reserved.</p>
 </footer>
+
+<script>
+    function toggleEditForm(issueId) {
+        const form = document.getElementById('edit-description-form-' + issueId);
+        if (form.style.display === 'block') {
+            form.style.display = 'none';  // Close the form if it's open
+        } else {
+            // Hide all forms first
+            document.querySelectorAll('.edit-description-form').forEach(function (form) {
+                form.style.display = 'none';
+            });
+            form.style.display = 'block';  // Open the clicked form
+        }
+    }
+</script>
 
 </body>
 </html>

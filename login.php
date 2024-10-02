@@ -44,9 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Assuming there's a general styles.css for site-wide styling -->
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Removed background-color from nav links */
         nav {
             display: flex;
             justify-content: flex-end;
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-decoration: none;
             margin-left: 15px;
             padding: 10px;
-            color: #333; /* Ensure nav links remain visible */
+            color: #333; 
         }
 
         nav a:hover {

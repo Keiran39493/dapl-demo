@@ -123,8 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .edit-profile-form {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align items to the left */
-            max-width: 600px; /* Limit the form width */
+            align-items: flex-start; 
+            max-width: 600px; 
             margin: auto;
             padding: 20px;
             background-color: white;
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .edit-profile-form input[type="text"], 
         .edit-profile-form input[type="email"], 
         .edit-profile-form .checkbox-container {
-            width: 100%; /* Make all elements full width */
+            width: 100%; 
             margin-bottom: 15px;
         }
 
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .button {
-            width: 100%; /* Make the button full width */
+            width: 100%; 
             padding: 10px;
             background-color: #00539CFF;
             color: white;
@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php elseif ($type == 'issues'): ?>
             <form method="POST" action="editprofile.php?type=issues" onsubmit="return confirmChange();">
-                <h2>Select Your Accessibility Issue Interests:</h2> <!-- Applied the same header styling as other headers -->
+                <h2>Select Your Accessibility Issue Interests:</h2> 
                 <div class="checkbox-container">
                     <?php while ($row = $all_issues_result->fetch_assoc()): ?>
                         <label>

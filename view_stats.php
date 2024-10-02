@@ -15,7 +15,7 @@ $developerRow = $developerResult->fetch_assoc();
 $totalDevelopers = $developerRow['total_developers'];
 
 // Query to count total general users
-$generalUserQuery = "SELECT COUNT(*) as total_general_users FROM users WHERE role = 'general user'";
+$generalUserQuery = "SELECT COUNT(*) as total_general_users FROM users WHERE role = 'general_user'";
 $generalUserResult = $conn->query($generalUserQuery);
 $generalUserRow = $generalUserResult->fetch_assoc();
 $totalGeneralUsers = $generalUserRow['total_general_users'];
@@ -40,6 +40,23 @@ $issueQuery = "
     GROUP BY ai.issue_name
     ORDER BY user_count DESC";
 $issueResult = $conn->query($issueQuery);
+
+// Query to count prompts per WCAG guideline and order by prompt count (lowest to highest)
+$wcagGuidelineQuery = "
+    SELECT guideline, COUNT(*) as prompt_count
+    FROM prompts
+    GROUP BY guideline
+    ORDER BY guideline ASC"; // Order by prompt count in ascending order
+$wcagGuidelineResult = $conn->query($wcagGuidelineQuery);
+
+// Query to count how many times an AI has been chosen, ordered alphabetically
+$aiRecommendationQuery = "
+    SELECT ai_recommendation, COUNT(*) as recommendation_count
+    FROM prompts
+    GROUP BY ai_recommendation
+    ORDER BY ai_recommendation ASC"; // Order by AI recommendation alphabetically
+$aiRecommendationResult = $conn->query($aiRecommendationQuery);
+
 ?>
 
 <!DOCTYPE html>
@@ -107,9 +124,14 @@ $issueResult = $conn->query($issueQuery);
 <?php include('header.php'); ?>
 
 <div class="container">
-    <a href="admin_dashboard.php" class="back-link">&larr; Back to Dashboard</a> <!-- Back to Dashboard link -->
+    <a href="admin_dashboard.php" class="back-link">&larr; Back to Dashboard</a> 
 
     <h1>Website Statistics</h1>
+
+    <!-- Note explaining the importance of these statistics -->
+    <p class="note">
+        Understanding website statistics and accessibility interests is crucial for administrators. These insights enable our website developers to identify areas where content needs to be populated and highlight the accessibility issues that other developers struggle with the most. By focusing on these aspects, the website can be continuously improved to meet both developer and user needs effectively.
+    </p>
 
     <!-- First Table: Total Users, Admins, and Prompts -->
     <table class="table">
@@ -140,12 +162,12 @@ $issueResult = $conn->query($issueQuery);
     </table>
 
     <!-- Second Table: User Accessibility Issues -->
-    <h2>User Accessibility Issues Breakdown</h2>
+    <h2>User Accessibility Interests Breakdown</h2>
     <table class="table">
         <thead>
             <tr>
                 <th>Accessibility Issue</th>
-                <th>Number of Users</th>
+                <th>Number of Users Interested</th>
             </tr>
         </thead>
         <tbody>
@@ -153,6 +175,44 @@ $issueResult = $conn->query($issueQuery);
             <tr>
                 <td><?= htmlspecialchars($row['issue_name']) ?></td>
                 <td><?= htmlspecialchars($row['user_count']) ?></td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+
+    <!-- Third Table: Prompts per WCAG Guideline -->
+    <h2>Prompts per WCAG Guideline</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>WCAG Guideline</th>
+                <th>Number of Prompts</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $wcagGuidelineResult->fetch_assoc()): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['guideline']) ?></td>
+                <td><?= htmlspecialchars($row['prompt_count']) ?></td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+
+    <!-- Fourth Table: AI Recommendations -->
+    <h2>AI Recommendations Breakdown</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>AI Recommendation</th>
+                <th>Number of Times Recommended</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $aiRecommendationResult->fetch_assoc()): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['ai_recommendation']) ?></td>
+                <td><?= htmlspecialchars($row['recommendation_count']) ?></td>
             </tr>
             <?php endwhile; ?>
         </tbody>

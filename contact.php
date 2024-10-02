@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Contact Us</title>
-        <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
     
@@ -82,6 +82,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.rating-stars span {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s ease;
+}
+
+.rating-stars span.active, 
+.rating-stars span.hovered {
+    color: gold;
+}
     </style>
 
     <script>
@@ -114,10 +125,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     });
                 });
 
-                // Remove hover effect
+                // On mouseout, remove hover effect but keep the selected rating filled
                 star.addEventListener('mouseout', function () {
                     stars.forEach((s) => {
                         s.classList.remove('hovered');
+                    });
+                    // Reapply the active class based on the current rating
+                    stars.forEach((s, i) => {
+                        if (i < rating) {
+                            s.classList.add('active'); 
+                        }
                     });
                 });
             });
